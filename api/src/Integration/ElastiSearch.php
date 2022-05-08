@@ -12,7 +12,7 @@ class ElastiSearch
     public function __construct()
     {
         $this->client = ClientBuilder::create()
-                                     ->setHosts(['http://elastic:muiepariuri1@localhost:9200'])
+                                     ->setHosts(['http://elastic:muiepariuri1@elk_kibana_elasticsearch_1:9200'])
                                      ->build();
     }
 
