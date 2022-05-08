@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   nginx:
-    container_name: nginx_ml
+    container_name: nginx_elk
     image: nginx:1.21.5-perl
     tty: true
     volumes:
@@ -15,7 +15,7 @@ services:
       - 1.1.1.1
   php:
     build: ./docker/dependencies/php
-    container_name: php_ml
+    container_name: php_elk
     tty: true
     volumes:
       - .:/var/www/html
