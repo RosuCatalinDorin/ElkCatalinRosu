@@ -14,9 +14,17 @@ services:
       - 10.100.101.50
       - 10.100.101.51
       - 1.1.1.1
+    networks:
+      - docker_net
   php:
     build: ./docker/dependencies/php
     container_name: php_elk
     tty: true
     volumes:
-      - .:/var/www/
+      - .:/var/www/html
+    networks:
+      - docker_net
+networks:
+  docker_net:
+    external:
+      name: docker_net
