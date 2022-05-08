@@ -1,0 +1,42 @@
+FROM php:8.1.1-fpm-alpine3.15
+
+MAINTAINER Zakariae Filali <filali.zakariae@gmail.com>
+
+ENV WORKDIR "var/www/html"
+
+RUN apk upgrade --update && apk --no-cache add \
+    gcc g++ make git autoconf tzdata openntpd libcurl curl-dev coreutils \
+    freetype-dev libxpm-dev libjpeg-turbo-dev libvpx-dev \
+    libpng-dev ca-certificates libressl libressl-dev libxml2-dev postgresql-dev icu-dev libzip-dev
+
+RUN docker-php-ext-configure intl \
+    && docker-php-ext-configure opcache \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg
+
+
+# Install Xdebug and Redis
+RUN docker-php-source extract \
+    && pecl install xdebug-alpha redis \
+    && docker-php-ext-enable xdebug redis \
+    && docker-php-source delete
+
+# Add timezone
+RUN ln -s /usr/share/zoneinfo/UTC /etc/localtime && \
+    "date"
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | \
+    php -- --install-dir=/usr/local/bin --filename=composer
+
+# Cleanup
+RUN rm -rf /var/cache/apk/* \
+    && find / -type f -iname \*.apk-new -delete \
+    && rm -rf /var/cache/apk/*
+
+RUN mkdir -p ${WORKDIR}
+
+WORKDIR ${WORKDIR}
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
