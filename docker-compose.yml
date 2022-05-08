@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/var/www/html
       - ./docker/dependencies/nginx/site.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/dependencies/CA:/certs
+      - ./docker/CA:/certs
     ports:
       - "8080:8443"
     dns:
