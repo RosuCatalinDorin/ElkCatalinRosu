@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Services;
 
-use App\Integration\ElastiSearch;
+use App\Integration\ElasticSearch;
 use App\Integration\Telegram;
 use DateTime;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -13,9 +16,9 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class TelegramService
 {
     private Telegram $telegram;
-    private ElastiSearch $elasticSearch;
+    private ElasticSearch $elasticSearch;
 
-    public function __construct(Telegram $telegram, ElastiSearch $elasticSearch)
+    public function __construct(Telegram $telegram, ElasticSearch $elasticSearch)
     {
 
         $this->telegram = $telegram;
@@ -30,22 +33,23 @@ class TelegramService
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function parseMessage() : array
+    public function parseMessage(): array
     {
-      return  $this->telegram->getTelegramMessanges();
+        return $this->telegram->getTelegramMessanges();
     }
-    public function insertMessagesToElk ($data)
+
+    public function insertMessagesToElk($data): array
     {
 
-        //data->date  = DateTime::createFromFormat('Y-m-d H:i:s', explode('+',$data->date)[0]);
 
 
-        for($i = 0; $i < count($data); $i++) {
-            $data[$i]->date =explode('+',$data[$i]->date)[0];
-        }
-        $this->elasticSearch->updateBuulk('mr-crypto',$data);
+        //dd($value);
 
-        return array("ok"=>"ok");
+        /*      for($i = 0; $i < count($data); $i++) {
+                  $data[$i]->date = explode('+',$data[$i]->date)[0];
+              }*/
+        $result = $this->elasticSearch->insertDocument('hnp-store', $data);
+        return array("ok" => "ok", 'result' => $result);
     }
 
 }

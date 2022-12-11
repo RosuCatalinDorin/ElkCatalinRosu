@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Integration\ElastiSearch;
+use App\Integration\ElasticSearch;
 
 class HnpService
 {
     private $elasticSearch;
 
-    public function __construct(ElastiSearch $elasticSearch) {
+    public function __construct(ElasticSearch $elasticSearch) {
 
         $this->elasticSearch = $elasticSearch;
     }

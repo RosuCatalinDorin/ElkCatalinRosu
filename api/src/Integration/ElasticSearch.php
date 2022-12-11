@@ -5,34 +5,34 @@ namespace App\Integration;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 
-class ElastiSearch
+class ElasticSearch
 {
     private Client $client;
 
     public function __construct()
     {
         $this->client = ClientBuilder::create()
-                                     ->setHosts(['http://elastic:muiepariuri1@elk_kibana_elasticsearch_1:9200'])
+                                     ->setHosts(['http://elastic:muiepariuri1@elk_kibana-elasticsearch-1:9200'])
                                      ->build();
     }
 
-    public function insertDocument($imdex, $document)
+    public function insertDocument($imdex, $document): callable|array
     {
         $params = [
             'index' => $imdex,
-            'id' => $document->id,
+
             'body' => $document
         ];
-        $this->client->index($params);
+        return $this->client->index($params);
     }
 
-    public function updateBuulk($imdex, $data)
+    public function updateBulk($index, $data): void
     {
-
+        $params = [];
         for($i = 0; $i < count($data); $i++) {
             $params['body'][] = [
                 'index' => [
-                    '_index' => $imdex,
+                    '_index' => $index,
                     '_id' => $data[$i]->id
                 ]
             ];
@@ -43,8 +43,7 @@ class ElastiSearch
 
     public function getDocumentsFromIndex($data) : callable|array
     {
-
-/*        $params = [
+        /*        $params = [
             'index' => "hnp-shop",
             'body'  => [
                 'query' => [
@@ -54,11 +53,6 @@ class ElastiSearch
                 ]
             ]
         ];*/
-
-        //dd($data);
-        //echo '<br>';
-       // print_r((array) $data );
-
         return $this->client->search((array) $data);
     }
 }

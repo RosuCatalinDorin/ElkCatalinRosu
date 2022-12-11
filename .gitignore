@@ -12,7 +12,8 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-
+bigJson/*
+bigJson
 # Generated files
 .idea/**/contentModel.xml
 

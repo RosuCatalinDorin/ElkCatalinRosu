@@ -1,6 +1,6 @@
 FROM php:8.1.1-fpm-alpine3.15
 
-MAINTAINER Zakariae Filali <filali.zakariae@gmail.com>
+MAINTAINER Catalin rosu <catared.dev@gmail.com>
 
 ENV WORKDIR "var/www/html"
 
@@ -13,12 +13,6 @@ RUN docker-php-ext-configure intl \
     && docker-php-ext-configure opcache \
     && docker-php-ext-configure gd --with-freetype --with-jpeg
 
-
-# Install Xdebug and Redis
-RUN docker-php-source extract \
-    && pecl install xdebug-alpha redis \
-    && docker-php-ext-enable xdebug redis \
-    && docker-php-source delete
 
 # Add timezone
 RUN ln -s /usr/share/zoneinfo/UTC /etc/localtime && \
