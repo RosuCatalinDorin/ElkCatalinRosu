@@ -4,23 +4,27 @@ namespace App\Integration;
 
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ElasticSearch
 {
     private Client $client;
 
-    public function __construct()
+    public function __construct( ParameterBagInterface $parameterBag)
     {
+       // dd($parameterBag->get('elk'));
         $this->client = ClientBuilder::create()
-                                     ->setHosts(['http://elastic:muiepariuri1@elk_kibana-elasticsearch-1:9200'])
+                                     ->setHosts([$parameterBag->get('elk')['host']])
                                      ->build();
     }
 
-    public function insertDocument($imdex, $document): callable|array
+/*->setHosts(['https://localhost:9200'])
+->setBasicAuthentication('elastic', 'password copied during Elasticsearch start')
+    */
+    public function insertDocument($index, $document): callable|array
     {
         $params = [
-            'index' => $imdex,
-
+            'index' => $index,
             'body' => $document
         ];
         return $this->client->index($params);

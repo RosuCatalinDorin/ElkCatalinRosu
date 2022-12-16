@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "doctrine/annotations": "^1.13",
         "elasticsearch/elasticsearch": "^7.16",
+        "halaxa/json-machine": "^1.1",
         "monolog/monolog": "~1.0",
         "nelmio/cors-bundle": "^2.2",
         "symfony/cache": "6.0.*",

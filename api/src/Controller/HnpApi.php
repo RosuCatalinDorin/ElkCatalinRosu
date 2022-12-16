@@ -21,7 +21,7 @@ class HnpApi extends AbstractController
 
 
     /**
-     * @Route("hnp/elk/products", name="elcGetData", stateless=true,methods={"POST"})
+     * @Route("hnp/elk/data", name="elcGetData", stateless=true,methods={"POST"})
      */
     public function elcGetData (Request $request): Response
     {
