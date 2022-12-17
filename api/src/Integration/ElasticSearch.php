@@ -12,16 +12,12 @@ class ElasticSearch
 
     public function __construct( ParameterBagInterface $parameterBag)
     {
-       // dd($parameterBag->get('elk'));
         $this->client = ClientBuilder::create()
                                      ->setHosts([$parameterBag->get('elk')['host']])
                                      ->build();
     }
 
-/*->setHosts(['https://localhost:9200'])
-->setBasicAuthentication('elastic', 'password copied during Elasticsearch start')
-    */
-    public function insertDocument($index, $document): callable|array
+  public function insertDocument($index, $document): callable|array
     {
         $params = [
             'index' => $index,
