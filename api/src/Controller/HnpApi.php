@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controller;
+
 use App\Services\TelegramService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +15,9 @@ class HnpApi extends AbstractController
     private TelegramService $telegramService;
     private HnpService $hnpService;
 
-    public function __construct(TelegramService $telegramService,HnpService $hnpService)
+    public function __construct(TelegramService $telegramService, HnpService $hnpService)
     {
-        $this->telegramService =  $telegramService;
+        $this->telegramService = $telegramService;
         $this->hnpService = $hnpService;
     }
 
@@ -23,13 +25,23 @@ class HnpApi extends AbstractController
     /**
      * @Route("hnp/elk/data", name="elcGetData", stateless=true,methods={"POST"})
      */
-    public function elcGetData (Request $request): Response
+    public function elcGetData(Request $request): Response
     {
         try {
             $data = json_decode($request->getContent());
             return $this->json($this->hnpService->getProducts($data));
         } catch (ClientExceptionInterface $e) {
-            return $this->json(['ups'=>"error",'mess'=>$e->getMessage()]);
+            return $this->json(['ups' => "error", 'mess' => $e->getMessage()]);
+        }
+    }
+
+    #[Route('hnp/elk/getProductByID/{id}', name: 'elcGetDataById', methods: ['GET'], stateless: true)]
+    public function elcGetDataById($id): Response
+    {
+        try {
+            return $this->json($this->hnpService->getProduct($id));
+        } catch (ClientExceptionInterface $e) {
+            return $this->json(['ups' => "error", 'mess' => $e->getMessage()]);
         }
     }
 }

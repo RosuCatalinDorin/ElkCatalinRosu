@@ -16,4 +16,8 @@ class HnpService
     {
         return $this->elasticSearch->getDocumentsFromIndex($data);
     }
+    public function getProduct($id) : callable|array
+    {
+        return $this->elasticSearch->getDocumentByID('hnp-store-article',$id);
+    }
 }

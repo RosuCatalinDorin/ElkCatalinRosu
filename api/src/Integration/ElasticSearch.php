@@ -26,6 +26,14 @@ class ElasticSearch
         return $this->client->index($params);
     }
 
+    public function getDocumentByID($index, $id): callable|array
+    {
+        $params = [
+            'index' => $index,
+            'id' => $id
+        ];
+        return $this->client->get($params);
+    }
     public function updateBulk($index, $data): void
     {
         $params = [];
@@ -43,16 +51,6 @@ class ElasticSearch
 
     public function getDocumentsFromIndex($data) : callable|array
     {
-        /*        $params = [
-            'index' => "hnp-shop",
-            'body'  => [
-                'query' => [
-                    'match' => [
-                        'UDX_APPAREA' => 'Threading'
-                    ]
-                ]
-            ]
-        ];*/
         return $this->client->search((array) $data);
     }
 }
