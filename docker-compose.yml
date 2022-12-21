@@ -6,7 +6,7 @@ services:
     tty: true
     volumes:
       - .:/var/www/html
-      - /data/reactFrontApp/build:/var/www/html/app
+      - /data/reactFrontApp/build:/var/www/html/app/build
       - ./docker/dependencies/nginx/site.conf:/etc/nginx/conf.d/default.conf
       - ./docker/CA:/certs
       -  /data/resources:/var/www/data
