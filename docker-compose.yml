@@ -12,7 +12,7 @@ services:
       -  /data/resources:/var/www/data
       -  /data/resources:/var/www/html/app/build/static/hnp-catalog
     ports:
-      - "8080:8443"
+      - "443:8443"
     networks:
       - docker_net
     restart: always
