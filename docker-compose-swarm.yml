@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  nginx:
+    image: catared/node-build-nginx-app:0.8
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    tty: true
+    ports:
+      - "9090:8443"
+    networks:
+      - red-network
+  php:
+    image: php:8.2.14-fpm
+    tty: true
+    deploy:
+      replicas: 6
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - .:/var/www/html
+    networks:
+      - red-network
+networks:
+  red-network:
+    driver: overlay
